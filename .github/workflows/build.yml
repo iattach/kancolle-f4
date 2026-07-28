@@ -1,0 +1,32 @@
+name: Build Proxy EXE
+
+on:
+  workflow_dispatch: # 允许你随时手动点击按钮重新打包
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+
+    - name: 设置 Python 运行环境
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: 安装依赖包
+      run: |
+        python -m pip install --upgrade pip
+        pip install mitmproxy requests pyinstaller
+
+    - name: 执行打包命令 (生成单文件 EXE)
+      run: |
+        pyinstaller --onefile kancolle_proxy.py
+
+    - name: 上传编译结果供下载
+      uses: actions/upload-artifact@v4
+      with:
+        name: KancolleProxy-Win64
+        path: dist/*.exe
