@@ -23,7 +23,7 @@ jobs:
 
     - name: 执行打包命令 (生成单文件 EXE)
       run: |
-        pyinstaller --onefile kancolle_proxy.py
+        pyinstaller --onefile --windowed kancolle_proxy.py
 
     - name: 上传编译结果供下载
       uses: actions/upload-artifact@v4
